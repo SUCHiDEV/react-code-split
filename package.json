@@ -1,6 +1,6 @@
 {
   "name": "react-code-split",
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "version": "5.5.0",
   "description": "A higher order component for loading components with promises",
   "main": "lib/index.js",
