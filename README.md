@@ -1,4 +1,4 @@
-![React Loadable](http://thejameskyle.com/img/react-loadable-header.png)
+![React CodeSplit](http://thejameskyle.com/img/react-code-split-header.png)
 
 > A higher order component for loading components with dynamic imports.
 
@@ -78,12 +78,12 @@ class MyComponent extends React.Component {
 But that's a whole bunch of work, and it doesn't even handle a bunch of cases.
 What about when `import()` fails? What about server-side rendering?
 
-Instead you can use `Loadable` to abstract away the problem.
+Instead you can use `CodeSplit` to abstract away the problem.
 
 ```js
 import CodeSplit from 'react-code-split';
 
-const CodeSplitBar = Loadable({
+const CodeSplitBar = CodeSplit({
   loader: () => import('./components/Bar'),
   loading() {
     return <div>Loading...</div>
@@ -104,7 +104,7 @@ When you use `import()` with Webpack 2+, it will
 you with no additional configuration.
 
 This means that you can easily experiment with new code splitting points just
-by switching to `import()` and using React Loadable. Figure out what performs
+by switching to `import()` and using React CodeSplit. Figure out what performs
 best for your app.
 
 ### Creating a great "Loading..." Component
@@ -169,7 +169,7 @@ function Loading(props) {
 ```
 
 This delay defaults to `200ms` but you can also customize the
-[delay](#optsdelay) in `Loadable`.
+[delay](#optsdelay) in `CodeSplit`.
 
 ```js
 CodeSplit({
@@ -204,7 +204,7 @@ function Loading(props) {
 ```
 
 However, this feature is disabled by default. To turn it on, you can pass a
-[`timeout` option](#optstimeout) to `Loadable`.
+[`timeout` option](#optstimeout) to `CodeSplit`.
 
 ```js
 CodeSplit({
@@ -216,7 +216,7 @@ CodeSplit({
 
 ### Customizing rendering
 
-By default `Loadable` will render the `default` export of the returned module.
+By default `CodeSplit` will render the `default` export of the returned module.
 If you want to customize this behavior you can use the
 [`render` option](#optsrender).
 
@@ -269,7 +269,7 @@ The component created by `CodeSplit` exposes a
 [static `preload` method](#loadablecomponentpreload) which does exactly this.
 
 ```js
-const CodeSplitBar = Loadable({
+const CodeSplitBar = CodeSplit({
   loader: () => import('./Bar'),
   loading: Loading,
 });
@@ -303,7 +303,7 @@ class MyComponent extends React.Component {
 <h2>
   <hr>
   <hr>
-  <img src="http://thejameskyle.com/img/react-loadable-ssr.png" alt="SERVER SIDE RENDERING">
+  <img src="http://thejameskyle.com/img/react-code-split-ssr.png" alt="SERVER SIDE RENDERING">
   <hr>
   <hr>
   <small>Server-Side Rendering</small>
@@ -312,7 +312,7 @@ class MyComponent extends React.Component {
 When you go to render all these dynamically loaded components, what you'll get
 is a whole bunch of loading screens.
 
-This really sucks, but the good news is that React Loadable is designed to
+This really sucks, but the good news is that React CodeSplit is designed to
 make server-side rendering work as if nothing is being loaded dynamically.
 
 Here's our starting server using [Express](https://expressjs.com/).
@@ -387,7 +387,7 @@ CodeSplit({
 });
 ```
 
-But don't worry too much about these options. React Loadable includes a
+But don't worry too much about these options. React CodeSplit includes a
 [Babel plugin](#babel-plugin) to add them for you.
 
 Just add the `react-code-split/babel` plugin to your Babel config:
@@ -411,7 +411,7 @@ For this, there is [`CodeSplit.Capture`](#loadablecapture) component which can
 be used to collect all the modules that were rendered.
 
 ```js
-import CodeSplit from 'react-loadable';
+import CodeSplit from 'react-code-split';
 
 app.get('/', (req, res) => {
   let modules = [];
@@ -564,7 +564,7 @@ window.main = () => {
   <small>API Docs</small>
 </h2>
 
-### `Loadable`
+### `CodeSplit`
 
 A higher-order component for dynamically [loading](#optsloader) a module before
 [rendering](#optsrender) it, a [loading](#opts.loading) component is rendered
@@ -585,7 +585,7 @@ This returns a [CodeSplitComponent](#loadablecomponent).
 
 A higher-order component that allows you to load multiple resources in parallel.
 
-Loadable.Map's [`opts.loader`](#optsloader) accepts an object of functions, and
+CodeSplit.Map's [`opts.loader`](#optsloader) accepts an object of functions, and
 needs a [`opts.render`](#optsrender) method.
 
 ```js
@@ -602,26 +602,26 @@ CodeSplit.Map({
 });
 ```
 
-When using `Loadable.Map` the `render()` method's `loaded` param will be an
+When using `CodeSplit.Map` the `render()` method's `loaded` param will be an
 object with the same shape as your `loader`.
 
-### `Loadable` and `Loadable.Map` Options
+### `CodeSplit` and `CodeSplit.Map` Options
 
 #### `opts.loader`
 
 A function returning a promise that loads your module.
 
 ```js
-Loadable({
+CodeSplit({
   loader: () => import('./Bar'),
 });
 ```
 
-When using with [`Loadable.Map`](#loadablemap) this accepts an object of these
+When using with [`CodeSplit.Map`](#loadablemap) this accepts an object of these
 types of functions.
 
 ```js
-Loadable.Map({
+CodeSplit.Map({
   loader: {
     Bar: () => import('./Bar'),
     i18n: () => fetch('./i18n/bar.json').then(res => res.json()),
@@ -629,7 +629,7 @@ Loadable.Map({
 });
 ```
 
-When using with `Loadable.Map` you'll also need to pass a
+When using with `CodeSplit.Map` you'll also need to pass a
 [`opts.render`](#optsrender) function.
 
 #### `opts.loading`
@@ -638,7 +638,7 @@ A [`LoadingComponent`](#loadingcomponent) that renders while a module is
 loading or when it errors.
 
 ```js
-Loadable({
+CodeSplit({
   loading: LoadingComponent,
 });
 ```
@@ -646,7 +646,7 @@ Loadable({
 This option is required, if you don't want to render anything, return `null`.
 
 ```js
-Loadable({
+CodeSplit({
   loading: () => null,
 });
 ```
@@ -658,7 +658,7 @@ Time to wait (in milliseconds) before passing
 component. This defaults to `200`.
 
 ```js
-Loadable({
+CodeSplit({
   delay: 200
 });
 ```
@@ -672,7 +672,7 @@ Time to wait (in milliseconds) before passing
 This is turned off by default.
 
 ```js
-Loadable({
+CodeSplit({
   timeout: 10000
 });
 ```
@@ -685,10 +685,10 @@ A function to customize the rendering of loaded modules.
 
 Receives `loaded` which is the resolved value of [`opts.loader`](#optsloader)
 and `props` which are the props passed to the
-[`LoadableComponent`](#loadablecomponent).
+[`CodeSplitComponent`](#loadablecomponent).
 
 ```js
-Loadable({
+CodeSplit({
   render(loaded, props) {
     let Component = loaded.default;
     return <Component {...props}/>;
@@ -702,7 +702,7 @@ An optional function which returns an array of Webpack module ids which you can
 get with `require.resolveWeak`.
 
 ```js
-Loadable({
+CodeSplit({
   loader: () => import('./Foo'),
   webpack: () => [require.resolveWeak('./Foo')],
 });
@@ -715,7 +715,7 @@ This option can be automated with the [Babel Plugin](#babel-plugin).
 An optional array with module paths for your imports.
 
 ```js
-Loadable({
+CodeSplit({
   loader: () => import('./my-component'),
   modules: ['./my-component'],
 });
@@ -723,12 +723,12 @@ Loadable({
 
 This option can be automated with the [Babel Plugin](#babel-plugin).
 
-### `LoadableComponent`
+### `CodeSplitComponent`
 
-This is the component returned by `Loadable` and `Loadable.Map`.
+This is the component returned by `CodeSplit` and `CodeSplit.Map`.
 
 ```js
-const LoadableComponent = Loadable({
+const CodeSplitComponent = CodeSplit({
   // ...
 });
 ```
@@ -736,15 +736,15 @@ const LoadableComponent = Loadable({
 Props passed to this component will be passed straight through to the
 dynamically loaded component via [`opts.render`](#optsrender).
 
-#### `LoadableComponent.preload()`
+#### `CodeSplitComponent.preload()`
 
-This is a static method on [`LoadableComponent`](#loadablecomponent) which can
+This is a static method on [`CodeSplitComponent`](#loadablecomponent) which can
 be used to load the component ahead of time.
 
 ```js
-const LoadableComponent = Loadable({...});
+const CodeSplitComponent = CodeSplit({...});
 
-LoadableComponent.preload();
+CodeSplitComponent.preload();
 ```
 
 This returns a promise, but you should avoid waiting for that promise to
@@ -773,7 +773,7 @@ function LoadingComponent(props) {
   }
 }
 
-Loadable({
+CodeSplit({
   loading: LoadingComponent,
 });
 ```
@@ -849,15 +849,15 @@ function LoadingComponent(props) {
 
 [Read more about delays](#avoiding-flash-of-loading-component).
 
-### `Loadable.preloadAll()`
+### `CodeSplit.preloadAll()`
 
 This will call all of the
-[`LoadableComponent.preload`](#loadablecomponentpreload) methods recursively
+[`CodeSplitComponent.preload`](#loadablecomponentpreload) methods recursively
 until they are all resolved. Allowing you to preload all of your dynamic
 modules in environments like the server.
 
 ```js
-Loadable.preloadAll().then(() => {
+CodeSplit.preloadAll().then(() => {
   app.listen(3000, () => {
     console.log('Running on http://localhost:3000/');
   });
@@ -872,7 +872,7 @@ rendered.
 
 ```js
 // During module initialization...
-const LoadableComponent = Loadable({...});
+const CodeSplitComponent = CodeSplit({...});
 
 class MyComponent extends React.Component {
   componentDidMount() {
@@ -889,43 +889,43 @@ class MyComponent extends React.Component {
 class MyComponent extends React.Component {
   componentDidMount() {
     // During app render...
-    const LoadableComponent = Loadable({...});
+    const CodeSplitComponent = CodeSplit({...});
   }
 }
 ```
 
-> **Note:** `Loadable.preloadAll()` will not work if you have more than one
-> copy of `react-loadable` in your app.
+> **Note:** `CodeSplit.preloadAll()` will not work if you have more than one
+> copy of `react-code-split` in your app.
 
 [Read more about preloading on the server](#preloading-all-your-loadable-components-on-the-server).
 
-### `Loadable.preloadReady()`
+### `CodeSplit.preloadReady()`
 
 Check for modules that are already loaded in the browser and call the matching
-[`LoadableComponent.preload`](#loadablecomponentpreload) methods.
+[`CodeSplitComponent.preload`](#loadablecomponentpreload) methods.
 
 ```js
-Loadable.preloadReady().then(() => {
+CodeSplit.preloadReady().then(() => {
   ReactDOM.hydrate(<App/>, document.getElementById('app'));
 });
 ```
 
 [Read more about preloading on the client](#waiting-to-render-on-the-client-until-all-the-bundles-are-loaded).
 
-### `Loadable.Capture`
+### `CodeSplit.Capture`
 
 A component for reporting which modules were rendered.
 
 Accepts a `report` prop which is called for every `moduleName` that is
-rendered via React Loadable.
+rendered via React CodeSplit.
 
 ```js
 let modules = [];
 
 let html = ReactDOMServer.renderToString(
-  <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+  <CodeSplit.Capture report={moduleName => modules.push(moduleName)}>
     <App/>
-  </Loadable.Capture>
+  </CodeSplit.Capture>
 );
 
 console.log(modules);
@@ -943,20 +943,20 @@ you:
 
 ```json
 {
-  "plugins": ["react-loadable/babel"]
+  "plugins": ["react-code-split/babel"]
 }
 ```
 
 **Input**
 
 ```js
-import Loadable from 'react-loadable';
+import CodeSplit from 'react-code-split';
 
-const LoadableMyComponent = Loadable({
+const CodeSplitMyComponent = CodeSplit({
   loader: () => import('./MyComponent'),
 });
 
-const LoadableComponents = Loadable.Map({
+const CodeSplitComponents = CodeSplit.Map({
   loader: {
     One: () => import('./One'),
     Two: () => import('./Two'),
@@ -967,16 +967,16 @@ const LoadableComponents = Loadable.Map({
 **Output**
 
 ```js
-import Loadable from 'react-loadable';
+import CodeSplit from 'react-code-split';
 import path from 'path';
 
-const LoadableMyComponent = Loadable({
+const CodeSplitMyComponent = CodeSplit({
   loader: () => import('./MyComponent'),
   webpack: () => [require.resolveWeak('./MyComponent')],
   modules: [path.join(__dirname, './MyComponent')],
 });
 
-const LoadableComponents = Loadable.Map({
+const CodeSplitComponents = CodeSplit.Map({
   loader: {
     One: () => import('./One'),
     Two: () => import('./Two'),
@@ -991,17 +991,17 @@ const LoadableComponents = Loadable.Map({
 ## Webpack Plugin
 
 In order to [send the right bundles down](#mapping-loaded-modules-to-bundles)
-when rendering server-side, you'll need the React Loadable Webpack plugin 
+when rendering server-side, you'll need the React CodeSplit Webpack plugin 
 to provide you with a mapping of modules to bundles.
 
 ```js
 // webpack.config.js
-import { ReactLoadablePlugin } from 'react-loadable/webpack';
+import { ReactCodeSplitPlugin } from 'react-code-split/webpack';
 
 export default {
   plugins: [
-    new ReactLoadablePlugin({
-      filename: './dist/react-loadable.json',
+    new ReactCodeSplitPlugin({
+      filename: './dist/react-code-split.json',
     }),
   ],
 };
@@ -1014,11 +1014,11 @@ to bundles.
 
 ### `getBundles`
 
-A method exported by `react-loadable/webpack` for converting modules to
+A method exported by `react-code-split/webpack` for converting modules to
 bundles.
 
 ```js
-import { getBundles } from 'react-loadable/webpack';
+import { getBundles } from 'react-code-split/webpack';
 
 let bundles = getBundles(stats, modules);
 ```
@@ -1028,7 +1028,7 @@ let bundles = getBundles(stats, modules);
 <h2>
   <hr>
   <hr>
-  <img src="http://thejameskyle.com/img/react-loadable-faq.png" alt="FAQ">
+  <img src="http://thejameskyle.com/img/react-code-split-faq.png" alt="FAQ">
   <hr>
   <hr>
   <small>FAQ</small>
@@ -1037,15 +1037,15 @@ let bundles = getBundles(stats, modules);
 ### How do I avoid repetition?
 
 Specifying the same `loading` component or `delay` every time you use
-`Loadable()` gets repetitive fast. Instead you can wrap `Loadable` with your
+`CodeSplit()` gets repetitive fast. Instead you can wrap `CodeSplit` with your
 own Higher-Order Component (HOC) to set default options.
 
 ```js
-import Loadable from 'react-loadable';
+import CodeSplit from 'react-code-split';
 import Loading from './my-loading-component';
 
-export default function MyLoadable(opts) {
-  return Loadable(Object.assign({
+export default function MyCodeSplit(opts) {
+  return CodeSplit(Object.assign({
     loading: Loading,
     delay: 200,
     timeout: 10000,
@@ -1056,25 +1056,25 @@ export default function MyLoadable(opts) {
 Then you can just specify a `loader` when you go to use it.
 
 ```js
-import MyLoadable from './MyLoadable';
+import MyCodeSplit from './MyCodeSplit';
 
-const LoadableMyComponent = MyLoadable({
+const CodeSplitMyComponent = MyCodeSplit({
   loader: () => import('./MyComponent'),
 });
 
 export default class App extends React.Component {
   render() {
-    return <LoadableMyComponent/>;
+    return <CodeSplitMyComponent/>;
   }
 }
 ```
 
-Unfortunately at the moment using wrapped Loadable breaks [react-loadable/babel](#babel-plugin) so in such case you have to add required properties (`modules`, `webpack`) manually.
+Unfortunately at the moment using wrapped CodeSplit breaks [react-code-split/babel](#babel-plugin) so in such case you have to add required properties (`modules`, `webpack`) manually.
 
 ```js
-import MyLoadable from './MyLoadable';
+import MyCodeSplit from './MyCodeSplit';
 
-const LoadableMyComponent = MyLoadable({
+const CodeSplitMyComponent = MyCodeSplit({
   loader: () => import('./MyComponent'),
   modules: ['./MyComponent'],
   webpack: () => [require.resolveWeak('./MyComponent')],
@@ -1082,7 +1082,7 @@ const LoadableMyComponent = MyLoadable({
 
 export default class App extends React.Component {
   render() {
-    return <LoadableMyComponent/>;
+    return <CodeSplitMyComponent/>;
   }
 }
 ```
