@@ -5,159 +5,33 @@
 ## Install
 
 ```sh
-yarn add react-loadable
+npm install react-code-split
 ```
 
 ## Example
 
 ```js
-import Loadable from 'react-loadable';
+import CodeSplit from 'react-code-split';
 import Loading from './my-loading-component';
 
-const LoadableComponent = Loadable({
+const CodeSplitComponent = CodeSplit({
   loader: () => import('./my-component'),
   loading: Loading,
 });
 
 export default class App extends React.Component {
   render() {
-    return <LoadableComponent/>;
+    return <CodeSplitComponent/>;
   }
 }
 ```
 
-## Happy Customers:
+### Introducing React CodeSplit
 
-- ["I'm obsessed with this right now: CRA with React Router v4 and react-loadable. Free code splitting, this is so easy."](https://twitter.com/matzatorski/status/872059865350406144)
-- ["Oh hey - using loadable component I knocked 13K off my initial load. Easy win!"](https://twitter.com/AdamRackis/status/846593080992153600)
-- ["Had a look and its awesome. shaved like 50kb off our main bundle."](https://github.com/quran/quran.com-frontend/pull/701#issuecomment-287908551)
-- ["I've got that server-side rendering + code splitting + PWA ServiceWorker caching setup done 😎 (thanks to react-loadable). Now our frontend is super fast."](https://twitter.com/mxstbr/status/922375575217627136)
-- ["Using react-loadable went from 221.28 KB → 115.76 KB @ main bundle. Fucking awesome and very simple API."](https://twitter.com/evgenyrodionov/status/958821614644269057)
-- ["We've reduced our entry chunk by a lot & reduced initial load time by ~50%!"](https://github.com/jamiebuilds/react-loadable/pull/181)
-- ["React-loadable is killer! We've decreased our load size by over 50kb with only 2 files! Can't wait to see how much lower it will go."](https://github.com/jamiebuilds/react-loadable/pull/180/)
-
-## Users
-
-- [AdHawk / Flooring Stores](https://www.flooringstores.com)
-- [Akutbolig.dk](https://www.akutbolig.dk)
-- [Analog.Cafe](https://www.analog.cafe)
-- [Ambrosus](https://ambrosus.com)
-- [Appbase.io](https://github.com/appbaseio/reactivesearch)
-- [Atlassian](https://www.atlassian.com/)
-- [BBC News](https://github.com/BBC-News/simorgh)
-- [Blytzpay](https://www.blytzpay.com)
-- [ClearTax](https://cleartax.in)
-- [Cloudflare](https://www.cloudflare.com)
-- [Chibaki](https://chibaki.co)
-- [Compass](https://compass.com)
-- [Curio](https://www.curio.org)
-- [Delivery.com](https://www.delivery.com)
-- [Doctor.com](https://www.doctor.com/)
-- [Dollar Shave Club](https://github.com/dollarshaveclub)
-- [Dresez](https://dresez.pk/)
-- [Edcast](https://www.edcast.com/)
-- [Evidation Health](https://evidation.com/)
-- [Flexport](https://flexport.com/)
-- [Flyhomes](https://flyhomes.com)
-- [Gogo](https://gogoair.com)
-- [Gofore](https://gofore.com/en/home/)
-- [Graana](https://www.graana.com/)
-- [Localie](https://localie.co/en)
-- [MediaTek MCS-Lite](https://github.com/MCS-Lite)
-- [NiYO Solutions Inc.](https://www.goniyo.com/)
-- [Officepulse](https://www.officepulse.in/)
-- [PageSpeed Green](https://pagespeed.green/)
-- [Perx](https://www.perxtech.com/)
-- [Plottu](https://public.plottu.com)
-- [reformma](https://reformma.com.br)
-- [Render](https://render.com)
-- [Shift](https://shift.com)
-- [Snipit](https://snipit.io)
-- [Spectrum.chat](https://spectrum.chat)
-- [Superblocks](https://superblocks.com)
-- [Sprint Boards](https://sprintboards.io)
-- [Talentpair](https://talentpair.com)
-- [Tinder](https://tinder.com/)
-- [Unsplash](https://unsplash.com/)
-- [Wave](https://waveapps.com/)
-- [WUZZUF](https://wuzzuf.net/)
-- [Wxb](https://wxb.com/wxpush)
-
-> _If your company or project is using React Loadable, please open a PR and add
-> yourself to this list (in alphabetical order please)_
-
-## Also See:
-
-- [`react-loadable-visibility`](https://github.com/stratiformltd/react-loadable-visibility) - Building on top of and keeping the same API as `react-loadable`, this library enables you to load content that is visible on the screen.
-
-- [`react-loadable-ssr-addon`](https://github.com/themgoncalves/react-loadable-ssr-addon) - Server Side Render add-on for `react-loadable`. Discover & load automatically dynamically all files dependencies, e.g. splitted chunks, css, etc.
-
-<h2>
-  <hr>
-  <hr>
-  <img src="http://thejameskyle.com/img/react-loadable-guide.png" alt="GUIDE">
-  <hr>
-  <hr>
-  <small>Guide</small>
-</h2>
-
-So you've got your React app, you're bundling it with Webpack, and things are
-going smooth. But then one day you notice your app's bundle is getting so big
-that it's slowing things down.
-
-It's time to start code-splitting your app!
-
-![A single giant bundle vs multiple smaller bundles](http://thejameskyle.com/img/react-loadable-split-bundles.png)
-
-Code-splitting is the process of taking one large bundle containing your entire
-app, and splitting them up into multiple smaller bundles which contain separate
-parts of your app.
-
-This might seem difficult to do, but tools like Webpack have this built in, and
-React Loadable is designed to make it super simple.
-
-### Route-based splitting vs. Component-based splitting
-
-A common piece of advice you will see is to break your app into separate routes
-and load each one asynchronously. This seems to work well enough for many apps–
-as a user, clicking a link and waiting for a page to load is a familiar
-experience on the web.
-
-But we can do better than that.
-
-Using most routing tools for React, a route is simply a component. There's
-nothing particularly special about them (Sorry Ryan and Michael– you're what's
-special). So what if we optimized for splitting around components instead of
-routes? What would that get us?
-
-![Route vs. component centric code splitting](http://thejameskyle.com/img/react-loadable-component-splitting.png)
-
-As it turns out: Quite a lot. There are many more places than just routes where
-you can pretty easily split apart your app. Modals, tabs, and many more UI
-components hide content until the user has done something to reveal it.
-
-> **Example:** Maybe your app has a map buried inside of a tab component. Why
-> would you load a massive mapping library for the parent route every time when
-> the user may never go to that tab?
-
-Not to mention all the places where you can defer loading content until higher
-priority content is finished loading. That component at the bottom of your page
-which loads a bunch of libraries: Why should that be loaded at the same time as
-the content at the top?
-
-And because routes are just components, we can still easily code-split at the
-route level.
-
-Introducing new code-splitting points in your app should be so easy that you
-don't think twice about it. It should be a matter of changing a few lines of
-code and everything else should be automated.
-
-### Introducing React Loadable
-
-React Loadable is a small library that makes component-centric code splitting
+React CodeSplit is a small library that makes component-centric code splitting
 incredibly easy in React.
 
-`Loadable` is a higher-order component (a function that creates a component)
+`CodeSplit` is a higher-order component (a function that creates a component)
 which lets you dynamically load any module before rendering it into your app.
 
 Let's imagine two components, one that imports and renders another.
@@ -207,9 +81,9 @@ What about when `import()` fails? What about server-side rendering?
 Instead you can use `Loadable` to abstract away the problem.
 
 ```js
-import Loadable from 'react-loadable';
+import CodeSplit from 'react-code-split';
 
-const LoadableBar = Loadable({
+const CodeSplitBar = Loadable({
   loader: () => import('./components/Bar'),
   loading() {
     return <div>Loading...</div>
@@ -218,7 +92,7 @@ const LoadableBar = Loadable({
 
 class MyComponent extends React.Component {
   render() {
-    return <LoadableBar/>;
+    return <CodeSplitBar/>;
   }
 }
 ```
@@ -244,7 +118,7 @@ function Loading() {
   return <div>Loading...</div>;
 }
 
-Loadable({
+CodeSplit({
   loader: () => import('./WillFailToLoad'), // oh no!
   loading: Loading,
 });
@@ -298,7 +172,7 @@ This delay defaults to `200ms` but you can also customize the
 [delay](#optsdelay) in `Loadable`.
 
 ```js
-Loadable({
+CodeSplit({
   loader: () => import('./components/Bar'),
   loading: Loading,
   delay: 300, // 0.3 seconds
@@ -333,7 +207,7 @@ However, this feature is disabled by default. To turn it on, you can pass a
 [`timeout` option](#optstimeout) to `Loadable`.
 
 ```js
-Loadable({
+CodeSplit({
   loader: () => import('./components/Bar'),
   loading: Loading,
   timeout: 10000, // 10 seconds
@@ -347,7 +221,7 @@ If you want to customize this behavior you can use the
 [`render` option](#optsrender).
 
 ```js
-Loadable({
+CodeSplit({
   loader: () => import('./my-component'),
   render(loaded, props) {
     let Component = loaded.namedExport;
@@ -363,10 +237,10 @@ returns a promise and [you're able to render something](#customizing-rendering).
 But writing it out can be a bit annoying.
 
 To make it easier to load multiple resources in parallel, you can use
-[`Loadable.Map`](#loadablemap).
+[`CodeSplit.Map`](#loadablemap).
 
 ```js
-Loadable.Map({
+CodeSplit.Map({
   loader: {
     Bar: () => import('./Bar'),
     i18n: () => fetch('./i18n/bar.json').then(res => res.json()),
@@ -379,7 +253,7 @@ Loadable.Map({
 });
 ```
 
-When using `Loadable.Map` the [`render()` method](#optsrender) is required. It
+When using `CodeSplit.Map` the [`render()` method](#optsrender) is required. It
 will be passed a `loaded` param which will be an object matching the shape of
 your `loader`.
 
@@ -391,11 +265,11 @@ rendered.
 For example, if you need to load a new component when a button gets pressed,
 you could start preloading the component when the user hovers over the button.
 
-The component created by `Loadable` exposes a
+The component created by `CodeSplit` exposes a
 [static `preload` method](#loadablecomponentpreload) which does exactly this.
 
 ```js
-const LoadableBar = Loadable({
+const CodeSplitBar = Loadable({
   loader: () => import('./Bar'),
   loading: Loading,
 });
@@ -408,7 +282,7 @@ class MyComponent extends React.Component {
   };
 
   onMouseOver = () => {
-    LoadableBar.preload();
+    CodeSplit.preload();
   };
 
   render() {
@@ -419,7 +293,7 @@ class MyComponent extends React.Component {
           onMouseOver={this.onMouseOver}>
           Show Bar
         </button>
-        {this.state.showBar && <LoadableBar/>}
+        {this.state.showBar && <CodeSplitBar/>}
       </div>
     )
   }
@@ -475,12 +349,12 @@ The first step to rendering the correct content from the server is to make sure
 that all of your loadable components are already loaded when you go to render
 them.
 
-To do this, you can use the [`Loadable.preloadAll`](#loadablepreloadall)
+To do this, you can use the [`CodeSplit.preloadAll`](#loadablepreloadall)
 method. It returns a promise that will resolve when all your loadable
 components are ready.
 
 ```js
-Loadable.preloadAll().then(() => {
+CodeSplit.preloadAll().then(() => {
   app.listen(3000, () => {
     console.log('Running on http://localhost:3000/');
   });
@@ -500,13 +374,13 @@ are rendering.
 
 #### Declaring which modules are being loaded
 
-There are two options in [`Loadable`](#loadable) and
-[`Loadable.Map`](#loadablemap) which are used to tell us which modules our
+There are two options in [`CodeSplit`](#codeplit) and
+[`CodeSplit.Map`](#codesplit) which are used to tell us which modules our
 component is trying to load: [`opts.modules`](#optsmodules) and
 [`opts.webpack`](#optswebpack).
 
 ```js
-Loadable({
+CodeSplit({
   loader: () => import('./Bar'),
   modules: ['./Bar'],
   webpack: () => [require.resolveWeak('./Bar')],
@@ -516,38 +390,36 @@ Loadable({
 But don't worry too much about these options. React Loadable includes a
 [Babel plugin](#babel-plugin) to add them for you.
 
-Just add the `react-loadable/babel` plugin to your Babel config:
+Just add the `react-code-split/babel` plugin to your Babel config:
 
 ```json
 {
   "plugins": [
-    "react-loadable/babel"
+    "react-code-split/babel"
   ]
 }
 ```
 
 Now these options will automatically be provided.
 
-For typescript you can use [react-loadable-ts-transformer](https://github.com/stushurik/react-loadable-ts-transformer) which is a ts analog of react-loadable/babel plugin.
-
 #### Finding out which dynamic modules were rendered
 
 Next we need to find out which modules were actually rendered when a request
 comes in.
 
-For this, there is [`Loadable.Capture`](#loadablecapture) component which can
+For this, there is [`CodeSplit.Capture`](#loadablecapture) component which can
 be used to collect all the modules that were rendered.
 
 ```js
-import Loadable from 'react-loadable';
+import CodeSplit from 'react-loadable';
 
 app.get('/', (req, res) => {
   let modules = [];
 
   let html = ReactDOMServer.renderToString(
-    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+    <CodeSplit.Capture report={moduleName => modules.push(moduleName)}>
       <App/>
-    </Loadable.Capture>
+    </CodeSplit.Capture>
   );
 
   console.log(modules);
@@ -564,20 +436,20 @@ server-side, we'll need to map them to the bundles that Webpack created.
 This comes in two parts.
 
 First we need Webpack to tell us which bundles each module lives inside. For
-this there is the [React Loadable Webpack plugin](#webpack-plugin).
+this there is the [React CodeSplit Webpack plugin](#webpack-plugin).
 
-Import the `ReactLoadablePlugin` from `react-loadable/webpack` and include it
+Import the `ReactCodeSplitPlugin` from `react-code-split/webpack` and include it
 in your webpack config. Pass it a `filename` for where to store the JSON data
 about our bundles.
 
 ```js
 // webpack.config.js
-import { ReactLoadablePlugin } from 'react-loadable/webpack';
+import { ReactCodeSplitPlugin } from 'react-code-split/webpack';
 
 export default {
   plugins: [
-    new ReactLoadablePlugin({
-      filename: './dist/react-loadable.json',
+    new ReactCodeSplitPlugin({
+      filename: './dist/react-code-split.json',
     }),
   ],
 };
@@ -587,20 +459,20 @@ Then we'll go back to our server and use this data to convert our modules to
 bundles.
 
 To convert from modules to bundles, import the [`getBundles`](#getbundles)
-method from `react-loadable/webpack` and the data from Webpack.
+method from `react-code-split/webpack` and the data from Webpack.
 
 ```js
-import Loadable from 'react-loadable';
-import { getBundles } from 'react-loadable/webpack'
-import stats from './dist/react-loadable.json';
+import CodeSplit from 'react-code-split';
+import { getBundles } from 'react-code-split/webpack'
+import stats from './dist/react-code-split.json';
 
 app.get('/', (req, res) => {
   let modules = [];
 
   let html = ReactDOMServer.renderToString(
-    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+    <CodeSplit.Capture report={moduleName => modules.push(moduleName)}>
       <App/>
-    </Loadable.Capture>
+    </CodeSplit.Capture>
   );
 
   let bundles = getBundles(stats, modules);
@@ -658,21 +530,21 @@ res.send(`
 
 #### Preloading ready loadable components on the client
 
-We can use the [`Loadable.preloadReady()`](#loadablepreloadready) method on the
+We can use the [`CodeSplit.preloadReady()`](#loadablepreloadready) method on the
 client to preload the loadable components that were included on the page.
 
-Like [`Loadable.preloadAll()`](#loadablepreloadall), it returns a promise,
+Like [`CodeSplit.preloadAll()`](#loadablepreloadall), it returns a promise,
 which on resolution means that we can hydrate our app.
 
 ```js
 // src/entry.js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Loadable from 'react-loadable';
+import CodeSplit from 'react-code-split';
 import App from './components/App';
 
 window.main = () => {
-  Loadable.preloadReady().then(() => {
+  CodeSplit.preloadReady().then(() => {
     ReactDOM.hydrate(<App/>, document.getElementById('app'));
   });
 };
@@ -686,7 +558,7 @@ window.main = () => {
 <h2>
   <hr>
   <hr>
-  <img src="http://thejameskyle.com/img/react-loadable-api-docs.png" alt="API DOCS">
+  <img src="http://thejameskyle.com/img/react-code-split-api-docs.png" alt="API DOCS">
   <hr>
   <hr>
   <small>API Docs</small>
@@ -699,7 +571,7 @@ A higher-order component for dynamically [loading](#optsloader) a module before
 while the module is unavailable.
 
 ```js
-const LoadableComponent = Loadable({
+const CodeSplitComponent = CodeSplit({
   loader: () => import('./Bar'),
   loading: Loading,
   delay: 200,
@@ -707,9 +579,9 @@ const LoadableComponent = Loadable({
 });
 ```
 
-This returns a [LoadableComponent](#loadablecomponent).
+This returns a [CodeSplitComponent](#loadablecomponent).
 
-### `Loadable.Map`
+### `CodeSplit.Map`
 
 A higher-order component that allows you to load multiple resources in parallel.
 
@@ -717,7 +589,7 @@ Loadable.Map's [`opts.loader`](#optsloader) accepts an object of functions, and
 needs a [`opts.render`](#optsrender) method.
 
 ```js
-Loadable.Map({
+CodeSplit.Map({
   loader: {
     Bar: () => import('./Bar'),
     i18n: () => fetch('./i18n/bar.json').then(res => res.json()),
